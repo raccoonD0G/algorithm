@@ -1,28 +1,30 @@
 #include <iostream>
+#include <string>
+#include <stack>
 #include <vector>
-#include <cmath>
+#include <algorithm>
 
-int main() {
-    int start, end;
-    std::cin >> start >> end;
-    
-    std::vector<bool> boolArr(end + 1, true);
-    boolArr[0] = boolArr[1] = false;  // 0 and 1 are not prime numbers
 
-    int limit = std::sqrt(end);
-    for (int i = 2; i <= limit; i++) {
-        if (boolArr[i]) {
-            for (int j = i * i; j <= end; j += i) {
-                boolArr[j] = false;
-            }
-        }
-    }
+int main()
+{
+	int start;
+	int end;
 
-    for (int i = start; i <= end; i++) {
-        if (boolArr[i]) {
-            std::cout << i << '\n';
-        }
-    }
+	std::cin >> start >> end;
+	std::vector<bool> boolArr(end + 1, true);
+	boolArr[1] = false;
 
-    return 0;
+	for (int i = 2; i * i <= end; i++)
+	{
+		if (boolArr[i])
+		{
+			for (int j = i * i; j <= end; j += i)
+				boolArr[j] = false;
+		}
+	}
+
+	for (int i = start; i < end + 1; i++)
+	{
+		if (boolArr[i]) std::cout << i << '\n';
+	}
 }
