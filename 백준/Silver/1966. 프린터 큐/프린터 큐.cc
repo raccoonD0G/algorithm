@@ -1,14 +1,9 @@
 #include <iostream>
 #include <vector>
 
-int GetFirstTrue(std::vector<bool>& boolArr, int end)
-{
-	for (int i = 0; i < end; i++) if (boolArr[i] == true) return i;
-}
-
 int FindMax(std::vector<int>& arr, std::vector<bool>& boolArr, int start, int end)
 {
-	int maxIndex = GetFirstTrue(boolArr, end);
+	int maxIndex = start;
 	for (int i = start; i < end; i++)
 	{
 		if (boolArr[i] && arr[maxIndex] < arr[i]) maxIndex = i;
