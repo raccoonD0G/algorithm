@@ -1,38 +1,38 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include <stack>
+
 using namespace std;
 
 bool Checker(string targetStr)
 {
-	stack<char> tmpArr;
+	vector<char> tmpArr;
 	for (int j = 0; targetStr[j] != '.'; j++)
 	{
 		if (targetStr[j] == '(')
 		{
-			tmpArr.push('(');
+			tmpArr.push_back('(');
 		}
 		if (targetStr[j] == '[')
 		{
-			tmpArr.push('[');
+			tmpArr.push_back('[');
 		}
 		if (targetStr[j] == ')')
 		{
 			if (tmpArr.size() == 0) return false;
-			if (tmpArr.top() != '(') return false;
+			if (*(tmpArr.end() - 1) != '(') return false;
 			else
 			{
-				tmpArr.pop();
+				tmpArr.erase(tmpArr.end() - 1);
 			}
 		}
 		if (targetStr[j] == ']')
 		{
 			if (tmpArr.size() == 0) return false;
-			if (tmpArr.top() != '[') return false;
+			if (*(tmpArr.end() - 1) != '[') return false;
 			else
 			{
-				tmpArr.pop();
+				tmpArr.erase(tmpArr.end() - 1);
 			}
 		}
 	}
