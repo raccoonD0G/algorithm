@@ -7,9 +7,8 @@ using namespace std;
 int DFS(vector<vector<int>>& graphVec, queue<int>& dFSVec, vector<bool>& isCheckedVec, int count)
 {
     int dFSVecLength = 0;
-    while (true)
+    while (dFSVec.empty() == false)
     {
-        if (dFSVec.front() == 1) return count;
         dFSVecLength = dFSVec.size();
         for (int i = 0; i < dFSVecLength; i++)
         {
@@ -30,6 +29,7 @@ int DFS(vector<vector<int>>& graphVec, queue<int>& dFSVec, vector<bool>& isCheck
         }
         count++;
     }
+    return 0;
 }
 
 
