@@ -23,7 +23,7 @@ public:
 		this->answer1 = answer1;
 	}
 
-	Answer operator+(const Answer& answer)
+	Answer operator+(Answer answer)
 	{
 		return Answer(this->answer0 + answer.answer0, this->answer1 + answer.answer1);
 	}
