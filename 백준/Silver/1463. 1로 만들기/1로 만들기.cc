@@ -4,28 +4,28 @@
 
 using namespace std;
 
-int DFS(vector<vector<int>>& graphVec, queue<int>& dFSVec, vector<bool>& isCheckedVec, int count)
+int BFS(vector<vector<int>>& graphVec, queue<int>& bFSVec, vector<bool>& isCheckedVec, int count)
 {
-    int dFSVecLength = 0;
-    while (dFSVec.empty() == false)
+    int bFSVecLength = 0;
+    while (bFSVec.empty() == false)
     {
-        dFSVecLength = dFSVec.size();
-        for (int i = 0; i < dFSVecLength; i++)
+        bFSVecLength = bFSVec.size();
+        for (int i = 0; i < bFSVecLength; i++)
         {
-            for (int j = 0; j < graphVec[dFSVec.front()].size(); j++)
+            for (int j = 0; j < graphVec[bFSVec.front()].size(); j++)
             {
-                int tmp = graphVec[dFSVec.front()][j];
+                int tmp = graphVec[bFSVec.front()][j];
                 if (tmp == 1) return ++count;
                 else
                 {
                     if (isCheckedVec[tmp] == false)
                     {
                         isCheckedVec[tmp] = true;
-                        dFSVec.push(tmp);
+                        bFSVec.push(tmp);
                     }
                 }
             }
-            dFSVec.pop();
+            bFSVec.pop();
         }
         count++;
     }
@@ -47,8 +47,8 @@ int main()
         if (i % 3 == 0) graphVec[i].push_back(i / 3);
     }
 
-    queue<int> dFSVec;
+    queue<int> bFSVec;
     vector<bool> isCheckedVec(inputNum + 1, false);
-    dFSVec.push(inputNum);
-    cout << DFS(graphVec, dFSVec, isCheckedVec, 0);
+    bFSVec.push(inputNum);
+    cout << BFS(graphVec, bFSVec, isCheckedVec, 0);
 }
