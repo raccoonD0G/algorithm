@@ -1,62 +1,88 @@
 #include <iostream>
 #include <vector>
-using namespace std;
+#include <algorithm>
 
-class Edge {
+class Edge
+{
 public:
     int destination;
     int distance;
 };
 
-int maxDistance = 0;
-int farthestNode = 0;
+using namespace std;
 
-void DFS(vector<vector<Edge>>& graphVec, vector<bool>& isChecked, int start, int length) {
+int DFS(vector<vector<Edge>>& graphVec, vector<bool>& isChecked, int start, int& endNode)
+{
     isChecked[start] = true;
-
-    if (length > maxDistance) {
-        maxDistance = length;
-        farthestNode = start;
-    }
-
-    for (Edge& edge : graphVec[start]) {
-        if (!isChecked[edge.destination]) {
-            DFS(graphVec, isChecked, edge.destination, length + edge.distance);
+    vector<int> lengthVec;
+    vector<int> endNodeVec;
+    for (int i = 0; i < graphVec[start].size(); i++)
+    {
+        Edge targetEdge = graphVec[start][i];
+        if (isChecked[targetEdge.destination] == false)
+        {
+            int endNodeTmp = -1;
+            lengthVec.push_back(DFS(graphVec, isChecked, targetEdge.destination, endNodeTmp) + targetEdge.distance);
+            endNodeVec.push_back(endNodeTmp);
         }
     }
+    
+    if (lengthVec.size() == 0)
+    {
+        endNode = start;
+        return 0;
+    }
+    else
+    {
+        int index = max_element(lengthVec.begin(), lengthVec.end()) - lengthVec.begin();
+        endNode = endNodeVec[index];
+        return lengthVec[index];
+    }
+    
 }
 
-int main() {
-    int numOfNode;
+int main()
+{
+    int numOfNode = 0;
+    
     cin >> numOfNode;
-
-    vector<vector<Edge>> graphVec(numOfNode + 1);
-
-    for (int i = 0; i < numOfNode; i++) {
-        int node;
-        cin >> node;
-        while (true) {
-            int destination, distance;
+    
+    vector<vector<Edge>> graphVec(numOfNode);
+    
+    for (int i = 0; i < numOfNode; i++)
+    {
+        int start = 0;
+        cin >> start;
+        while(true)
+        {
+            int destination = 0;
             cin >> destination;
-            if (destination == -1) {
-                break;
+            
+            if(destination != -1)
+            {
+                Edge edgeTmp;
+                
+                destination--;
+                edgeTmp.destination = destination;
+                
+                cin >> edgeTmp.distance;
+                
+                graphVec[start - 1].push_back(edgeTmp);
             }
-            cin >> distance;
-
-            graphVec[node].push_back(Edge{destination, distance});
+            else break;
         }
+        
     }
-
-    // 첫 번째 DFS 실행
-    vector<bool> isChecked(numOfNode + 1, false);
-    DFS(graphVec, isChecked, 1, 0);
-
-    // 두 번째 DFS 실행
-    fill(isChecked.begin(), isChecked.end(), false);
-    maxDistance = 0;
-    DFS(graphVec, isChecked, farthestNode, 0);
-
-    cout << maxDistance;
-
+    
+    int endNode = -1;
+    vector<bool> isChecked(numOfNode, false);
+    
+    DFS(graphVec, isChecked, 0, endNode);
+    
+    for (int i = 0; i < numOfNode; i++) isChecked[i] = false;
+    
+    int trash = -1;
+    cout << DFS(graphVec, isChecked, endNode, trash);
+    
     return 0;
 }
